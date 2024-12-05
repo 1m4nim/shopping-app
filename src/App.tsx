@@ -2,6 +2,8 @@ import React from "react";
 import Scroll from "./scroll-auto";
 import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Home() {
   return (

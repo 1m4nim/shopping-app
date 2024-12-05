@@ -1,7 +1,10 @@
 .carousel-slide {
-    display: inline-block;
+    display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
 }
 
 .image-container {

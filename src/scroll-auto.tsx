@@ -3,7 +3,13 @@ import { Carousel, Image } from "antd";
 import "./scroll-auto.css";
 
 const Scroll: React.FC = () => (
-  <Carousel autoplay autoplaySpeed={3000} dotPosition="bottom">
+  <Carousel
+    autoplay
+    autoplaySpeed={3000}
+    dotPosition="bottom"
+    pauseOnDotsHover={false}
+    slickGoTo={0}
+  >
     <div className="carousel-slide">
       <div className="image-container">
         <Image
