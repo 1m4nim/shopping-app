@@ -1,5 +1,7 @@
+import React from "react";
+import App from "./App"; // named import
+import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
-import NewpageButton from "./newpage-button";
 
 export default function Home() {
   return (
@@ -7,7 +9,8 @@ export default function Home() {
       <h1 className={styles.title}>Happy shopping</h1>
       <p className={styles.description}>ここから始まるHappyなお買い物</p>
       <div className={styles.newpage}>
-        <NewpageButton></NewpageButton>
+        <App />
+        <NewpageButton />
       </div>
     </div>
   );

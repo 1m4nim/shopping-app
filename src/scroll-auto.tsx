@@ -1,7 +1,5 @@
-// App.tsx
 import React from "react";
 import { Carousel } from "antd";
-import "antd/dist/reset.css";
 
 const contentStyle: React.CSSProperties = {
   height: "160px",
@@ -11,8 +9,8 @@ const contentStyle: React.CSSProperties = {
   background: "#364d79",
 };
 
-export const App: React.FC = () => (
-  <Carousel autoplay={true}>
+const App: React.FC = () => (
+  <Carousel autoplay>
     <div>
       <h3 style={contentStyle}>1</h3>
     </div>
@@ -28,7 +26,4 @@ export const App: React.FC = () => (
   </Carousel>
 );
 
-// NewpageButton.tsx (名前付きエクスポート)
-export const NewpageButton = () => {
-  return <button>New Page</button>;
-};
+export default App;
