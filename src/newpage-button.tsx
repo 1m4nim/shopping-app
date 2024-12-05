@@ -28,7 +28,6 @@ export const App: React.FC = () => (
   </Carousel>
 );
 
-// NewpageButton.tsx (名前付きエクスポート)
 export const NewpageButton = () => {
-  return <button>New Page</button>;
+  return <button>さあ！お買い物をしよう！</button>;
 };

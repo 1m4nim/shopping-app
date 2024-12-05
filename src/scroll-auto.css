@@ -1,0 +1,14 @@
+.item-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-slide {
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-slide .ant-image {
+    margin: 0 10px;
+}
