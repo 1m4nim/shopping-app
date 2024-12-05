@@ -1,14 +1,35 @@
 import React from "react";
 import { Carousel, Image } from "antd";
+import "./scroll-auto.css";
 
 const Scroll: React.FC = () => (
-  <Carousel autoplay infinite>
-    <div className="item-preview">
-      <div className="carousel-slide">
-        <Image src="/kuchibeni.png" preview={true} />
-        <Image src="/makeup_cheek.png" preview={true} />
-        <Image src="/makeup_eyeshadow.png" preview={true} />
-        <Image src="/makeup_manicure.png" preview={true} />
+  <Carousel autoplay autoplaySpeed={3000} dotPosition="bottom">
+    <div className="carousel-slide">
+      <div className="image-container">
+        <Image
+          src="/kuchibeni.png"
+          preview={true}
+          style={{ width: "150px", height: "auto" }}
+          className="carousel-image"
+        />
+        <Image
+          src="/makeup_cheek.png"
+          preview={true}
+          style={{ width: "150px", height: "auto" }}
+          className="carousel-image"
+        />
+        <Image
+          src="/makeup_eyeshadow.png"
+          preview={true}
+          style={{ width: "150px", height: "auto" }}
+          className="carousel-image"
+        />
+        <Image
+          src="/makeup_manicure.png"
+          preview={true}
+          style={{ width: "150px", height: "auto" }}
+          className="carousel-image"
+        />
       </div>
     </div>
   </Carousel>

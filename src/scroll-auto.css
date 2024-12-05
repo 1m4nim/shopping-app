@@ -1,14 +1,20 @@
-.item-preview {
-    display: flex;
+.carousel-slide {
+    display: inline-block;
     justify-content: center;
     align-items: center;
 }
 
-.carousel-slide {
+.image-container {
     display: flex;
-    justify-content: center;
+    gap: 16px;
 }
 
-.carousel-slide .ant-image {
-    margin: 0 10px;
+.carousel-image {
+    height: auto;
+    object-fit: cover;
+    display: flex;
+}
+
+.item-preview {
+    display: flex;
 }
