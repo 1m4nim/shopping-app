@@ -1,4 +1,3 @@
-import React from "react";
 import "antd/dist/reset.css";
 
 export const NewpageButton = () => {

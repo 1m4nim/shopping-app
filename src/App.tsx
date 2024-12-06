@@ -1,4 +1,3 @@
-import React from "react";
 import Scroll from "./scroll-auto";
 import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
