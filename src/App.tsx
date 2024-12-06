@@ -1,5 +1,5 @@
 import React from "react";
-import Scroll from "./scroll-auto";
+import ImageCarousel from "./scroll-auto";
 import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
 import "slick-carousel/slick/slick.css";
@@ -11,7 +11,7 @@ export default function Home() {
       <h1 className={styles.title}>Happy shopping</h1>
       <p className={styles.description}>ここから始まるHappyなお買い物</p>
       <div className={styles.newpage}>
-        <Scroll />
+        <ImageCarousel />
         <NewpageButton />
       </div>
     </div>
