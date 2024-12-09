@@ -1,5 +1,15 @@
-import "antd/dist/reset.css";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const NewpageButton = () => {
-  return <button style={{ width: "700px" }}>さあ！お買い物をしよう！</button>;
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/supply-list");
+  };
+
+  return (
+    <button style={{ width: "700px" }} onClick={handleClick}>
+      さあ！お買い物をしよう！
+    </button>
+  );
 };
