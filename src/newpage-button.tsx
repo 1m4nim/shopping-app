@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 export const NewpageButton = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/supply-list");
+    navigate("/item-page");
   };
 
   return (
-    <button style={{ width: "700px" }} onClick={handleClick}>
+    <button style={{ width: "100%" }} onClick={handleClick}>
       さあ！お買い物をしよう！
     </button>
   );
