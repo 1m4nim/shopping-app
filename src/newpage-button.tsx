@@ -7,8 +7,10 @@ export const NewpageButton = () => {
   };
 
   return (
-    <button style={{ width: "100%" }} onClick={handleClick}>
-      さあ！お買い物をしよう！
+    <button style={{ width: "150%" }} onClick={handleClick}>
+      さあ！
+      <br />
+      お買い物をしよう！
     </button>
   );
 };

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Scroll from "./scroll-auto";
+//import Scroll from "./scroll-auto";
 import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
 import "slick-carousel/slick/slick.css";
@@ -21,7 +21,7 @@ export default function App() {
                 ここから始まるHappyなお買い物
               </p>
               <div className={styles.newpage}>
-                <Scroll />
+                {/* <Scroll /> */}
                 <NewpageButton />
               </div>
             </div>
