@@ -1,18 +1,24 @@
-/* 共通スタイル */
+body {
+    margin: 0;
+}
+
 .left {
     position: absolute;
     top: 10px;
     left: 10px;
     font-size: 1.5rem;
-    z-index: 0;
+    z-index: -1;
+
 }
 
 .summary {
     display: flex;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    z-index: 1;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .band {
@@ -20,10 +26,9 @@
     padding: 10px;
     font-size: 1rem;
     font-weight: bold;
-    color: #333;
+    color: white;
     text-align: center;
-    background-color: #cc9839;
-    margin-top: 0.5rem;
+    background-color: rgb(167, 115, 52);
 }
 
 .hamburger {
@@ -61,7 +66,6 @@
 
 .menu .band {
     display: block;
-    height: 100%;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
 }
@@ -70,9 +74,11 @@
     border-bottom: none;
 }
 
+
 @media (max-width: 768px) {
     .summary {
         display: none;
+
     }
 
     .hamburger {
