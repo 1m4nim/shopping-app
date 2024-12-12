@@ -1,0 +1,39 @@
+.summary {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 0;
+    color: white;
+    z-index: 1000;
+
+}
+
+.band {
+    padding: 0.5rem 1rem;
+    background-color: #c4934b;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.band:hover {
+    background-color: #725f20;
+}
+
+.left {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #DEB887;
+    color: #61540B;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 26px;
+    z-index: 1000;
+    font-weight: bold;
+}
