@@ -9,5 +9,5 @@
 
 # 追加
 
-![image](https://github.com/user-attachments/assets/27585057-231e-47a3-939d-24a714839266)
-![image](https://github.com/user-attachments/assets/da05e784-2120-4f42-a661-430d864955c0)
+![image](https://github.com/user-attachments/assets/957f8cb8-d0bf-4dde-9d68-0f34a7449519)
+![image](https://github.com/user-attachments/assets/1cb9c2af-7dcc-49e5-8f0d-c8e0eb5d8564)
