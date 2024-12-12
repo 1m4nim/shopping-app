@@ -7,7 +7,7 @@ export const NewpageButton = () => {
   };
 
   return (
-    <button style={{ width: "150%" }} onClick={handleClick}>
+    <button style={{ width: "400px", fontSize: "24px" }} onClick={handleClick}>
       さあ！
       <br />
       お買い物をしよう！
