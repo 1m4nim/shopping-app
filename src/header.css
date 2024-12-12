@@ -1,39 +1,81 @@
-.summary {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 0;
-    color: white;
-    z-index: 1000;
+/* 共通スタイル */
+.left {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5rem;
+    z-index: 0;
+}
 
+.summary {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 }
 
 .band {
-    padding: 0.5rem 1rem;
-    background-color: #c4934b;
-    border-radius: 4px;
-    text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.band:hover {
-    background-color: #725f20;
-}
-
-.left {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    padding: 5px 10px;
-    background-color: #DEB887;
-    color: #61540B;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 26px;
-    z-index: 1000;
+    padding: 10px;
+    font-size: 1rem;
     font-weight: bold;
+    color: #333;
+    text-align: center;
+    background-color: #cc9839;
+    margin-top: 0.5rem;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px 0;
+    background-color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 10;
+}
+
+.menu.active {
+    display: block;
+}
+
+.menu .band {
+    display: block;
+    height: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.menu .band:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .summary {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
 }
