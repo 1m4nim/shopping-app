@@ -15,7 +15,8 @@ body {
     background-color: rgb(167, 115, 52);
     color: white;
     text-decoration: none;
-    padding: 0.5rem
+    padding: 0.5rem;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .left a:hover {
@@ -42,6 +43,7 @@ body {
     color: white;
     text-align: center;
     background-color: rgb(167, 115, 52);
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .band:hover {
@@ -63,7 +65,7 @@ body {
     height: 3px;
     margin: 5px 0;
     background-color: #333;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
 .menu {
@@ -86,17 +88,21 @@ body {
     display: block;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.menu .band:hover {
+    background-color: gray;
+    color: black;
 }
 
 .menu .band:last-child {
     border-bottom: none;
 }
 
-
 @media (max-width: 768px) {
     .summary {
         display: none;
-
     }
 
     .hamburger {
