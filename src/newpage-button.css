@@ -1,0 +1,14 @@
+.newpage-button {
+    width: 400px;
+    font-size: 24px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.newpage-button:hover {
+    background-color: gray;
+    color: black;
+}

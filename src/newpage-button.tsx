@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./newpage-button.css";
 
 export const NewpageButton = () => {
   const navigate = useNavigate();
@@ -7,15 +8,7 @@ export const NewpageButton = () => {
   };
 
   return (
-    <button
-      style={{
-        width: "400px",
-        fontSize: "24px",
-        backgroundColor: "black",
-        color: "white",
-      }}
-      onClick={handleClick}
-    >
+    <button className="newpage-button" onClick={handleClick}>
       さあ！
       <br />
       お買い物をしよう！
