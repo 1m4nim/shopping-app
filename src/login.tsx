@@ -1,5 +1,4 @@
 import NotFound from "./not-found";
-import "./not-found.css";
 
 function Login() {
   return (

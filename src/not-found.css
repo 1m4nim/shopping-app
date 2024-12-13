@@ -1,20 +1,14 @@
-.title {
-    font-size: 2rem;
+.not-found-container {
     text-align: center;
-    font-weight: bold;
-    margin-bottom: 24px;
+    padding: 20px;
 }
 
-.text {
-    font-size: 1rem;
-    text-align: center;
+.not-found-title {
+    font-size: 24px;
+    color: #333;
 }
 
-.container {
-    position: relative;
-    background-color: #fff;
-    width: 840px;
-    margin: -40px auto 0;
-    padding: 160px 80px;
-    border-radius: var(--border-radius);
+.not-found-text {
+    font-size: 16px;
+    color: #666;
 }

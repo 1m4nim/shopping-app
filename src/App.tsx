@@ -6,6 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SupplyList from "./item-page";
 import HeaderDesign from "./header";
+import Login from "./login";
+import Sell from "./sell";
+import Help from "./help";
 
 import "antd/dist/reset.css";
 
@@ -30,6 +33,9 @@ export default function App() {
           }
         />
         <Route path="/item-page" element={<SupplyList />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sell" element={<Sell />} />
+        <Route path="/help" element={<Help />} />
       </Routes>
     </Router>
   );
