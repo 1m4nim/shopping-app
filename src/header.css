@@ -7,8 +7,20 @@ body {
     top: 10px;
     left: 10px;
     font-size: 1.5rem;
-    z-index: -1;
+    z-index: 10;
+    margin-bottom: 0.5rem;
+}
 
+.left a {
+    background-color: rgb(167, 115, 52);
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem
+}
+
+.left a:hover {
+    background-color: gray;
+    color: black;
 }
 
 .summary {
@@ -30,6 +42,11 @@ body {
     color: white;
     text-align: center;
     background-color: rgb(167, 115, 52);
+}
+
+.band:hover {
+    background-color: gray;
+    color: black;
 }
 
 .hamburger {

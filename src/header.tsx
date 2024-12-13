@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./header.css";
+import { Link } from "react-router-dom";
 
 const HeaderDesign: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,11 +11,20 @@ const HeaderDesign: React.FC = () => {
 
   return (
     <div>
-      <div className="left">Happy shopping</div>
+      <div className="left">
+        <a href="/">Happy shopping</a>
+      </div>
+
       <div className="summary">
-        <div className="band">販売をはじめる</div>
-        <div className="band">ヘルプ</div>
-        <div className="band">ログイン</div>
+        <Link to="/sell" className="band">
+          販売をはじめる
+        </Link>
+        <Link to="/help" className="band">
+          ヘルプ
+        </Link>
+        <Link to="/login" className="band">
+          ログイン
+        </Link>
       </div>
 
       <div className="hamburger" onClick={toggleMenu}>
@@ -24,15 +34,15 @@ const HeaderDesign: React.FC = () => {
       </div>
 
       <div className={`menu ${menuOpen ? "active" : ""}`}>
-        <div className="band" onClick={toggleMenu}>
+        <Link to="/sell" className="band" onClick={toggleMenu}>
           販売をはじめる
-        </div>
-        <div className="band" onClick={toggleMenu}>
+        </Link>
+        <Link to="/help" className="band" onClick={toggleMenu}>
           ヘルプ
-        </div>
-        <div className="band" onClick={toggleMenu}>
+        </Link>
+        <Link to="/login" className="band" onClick={toggleMenu}>
           ログイン
-        </div>
+        </Link>
       </div>
     </div>
   );
