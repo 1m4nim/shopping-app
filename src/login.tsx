@@ -1,11 +1,13 @@
-import NotFound from "./not-found";
+import AuthComponent from "./AuthComponent";
+import "./login.css";
 
-function Login() {
+const Login = () => {
   return (
     <div>
-      <NotFound />
+      <h1>ログイン</h1>
+      <AuthComponent />
     </div>
   );
-}
+};
 
 export default Login;
