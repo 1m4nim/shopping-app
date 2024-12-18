@@ -11,6 +11,7 @@ const Login = () => {
   return (
     <div>
       <h1>ログイン</h1>
+      {/* AuthComponent に onUserChange を渡す */}
       <AuthComponent onUserChange={handleUserChange} />
     </div>
   );
