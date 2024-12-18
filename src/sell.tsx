@@ -1,101 +1,121 @@
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../firebaseConfig"; // Firebase設定ファイルのインポート
-import { ref, getDownloadURL } from "firebase/storage"; // Firebase StorageからURLを取得
-import { collection, query, getDocs } from "firebase/firestore"; // Firestoreからデータを取得
+import { storage } from "../firebase";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
-interface ImageData {
+// 画像とそのキャプションを格納するインターフェース
+interface ImageWithCaption {
+  url: string;
   caption: string;
-  imagePath: string; // Firestoreに保存されている画像のパス
-  downloadURL: string; // Firebase Storageから取得した画像のURL
 }
 
 const Sell = () => {
-  const [images, setImages] = useState<ImageData[]>([]); // 画像URLを格納するための状態
-  const [error, setError] = useState<string | null>(null);
+  const [images, setImages] = useState<ImageWithCaption[]>([]); // 画像とキャプションのリスト
+  const [selectedImage, setSelectedImage] = useState<string>(""); // 選択された画像のURL
+  const [caption, setCaption] = useState<string>(""); // 現在入力中のキャプション
 
+  // Firebase Storage から画像を取得
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        console.log("画像データの取得を開始します...");
-        // Firestoreのpostsコレクションから画像情報を取得
-        const q = query(collection(db, "posts"));
-        const querySnapshot = await getDocs(q); // キャッシュを無視して取得
-        console.log(
-          "取得した画像データ:",
-          querySnapshot.docs.map((doc) => doc.data())
+        const imagesRef = ref(storage, "shopping-app/supply-list/");
+        const result = await listAll(imagesRef);
+
+        // 取得した画像のURLと空のキャプションをセット
+        const imageList: ImageWithCaption[] = await Promise.all(
+          result.items.map(async (item) => {
+            const url = await getDownloadURL(item);
+            return { url, caption: "" }; // 初期キャプションは空
+          })
         );
-
-        querySnapshot.docs.forEach((doc) => {
-          console.log("Document data:", doc.data());
-        });
-
-        const imageData: ImageData[] = []; // 型を明示的に定義
-
-        // Firestoreからデータを取得し、画像URLを取得
-        for (const doc of querySnapshot.docs) {
-          const data = doc.data();
-          const imagePath = data.imagePath; // Firestoreから保存された画像のパスを取得
-
-          console.log("取得したimagePath:", imagePath); // imagePathの確認
-
-          // 画像のパスがStorageに格納されている場合
-          if (imagePath) {
-            try {
-              console.log("Firebase Storageから画像URLを取得中...");
-              // Firebase Storageから画像URLを取得 (画像のパスを指定)
-              const imageRef = ref(storage, imagePath); // Firestoreに保存された画像のパスを使う
-              const downloadURL = await getDownloadURL(imageRef);
-
-              console.log("取得した画像URL:", downloadURL); // 画像URLの確認
-
-              // 画像データとdownloadURLを統合
-              const imageDataWithUrl: ImageData = {
-                caption: data.caption || "", // 必要なフィールドを取得
-                imagePath,
-                downloadURL,
-              };
-
-              imageData.push(imageDataWithUrl); // 画像データを配列に追加
-            } catch (err) {
-              const error = err as Error; // エラー型を明示的に指定
-              console.error("画像の取得に失敗:", error); // エラーログ
-              setError(`画像の取得に失敗しました: ${error.message}`);
-            }
-          }
-        }
-
-        // 画像データを状態に設定
-        console.log("取得した画像データ:", imageData); // 画像データの確認
-        setImages(imageData);
-      } catch (err) {
-        const error = err as Error; // エラー型を明示的に指定
-        console.error("画像データの取得に失敗:", error); // エラーログ
-        setError(`画像データの取得に失敗しました: ${error.message}`);
+        setImages(imageList);
+      } catch (error) {
+        console.error("画像の取得に失敗しました:", error);
       }
     };
 
     fetchImages();
-  }, []); // 空の依存配列で一度だけ実行
+  }, []);
+
+  // 画像がクリックされた時にキャプションを設定
+  const handleImageClick = (url: string) => {
+    setSelectedImage(url);
+    const selectedImage = images.find((image) => image.url === url);
+    if (selectedImage) {
+      setCaption(selectedImage.caption); // 既存のキャプションを表示
+    }
+  };
+
+  // キャプションの変更を管理
+  const handleCaptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCaption(event.target.value);
+  };
+
+  // キャプションを保存
+  const handleCaptionSave = () => {
+    setImages((prevImages) =>
+      prevImages.map((image) =>
+        image.url === selectedImage ? { ...image, caption } : image
+      )
+    );
+    setCaption(""); // 保存後、入力フィールドをリセット
+  };
 
   return (
     <div>
-      <h2>画像の一覧</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <h1>画像一覧</h1>
       <div>
-        {images.length === 0 ? (
-          <p>画像がありません。</p>
-        ) : (
-          images.map((image, index) => (
-            <div key={index}>
-              <img
-                src={image.downloadURL}
-                alt={`image-${index}`}
-                style={{ width: "100px", height: "100px" }}
-              />
-              <p>{image.caption}</p>
-            </div>
-          ))
-        )}
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image.url}
+            alt={`Storage Image ${index}`}
+            onClick={() => handleImageClick(image.url)}
+            style={{
+              width: "150px",
+              margin: "10px",
+              cursor: "pointer",
+              border: selectedImage === image.url ? "2px solid blue" : "none",
+            }}
+          />
+        ))}
+      </div>
+
+      {selectedImage && (
+        <div>
+          <h3>選択された画像:</h3>
+          <img
+            src={selectedImage}
+            alt="選択された画像"
+            style={{ width: "300px", margin: "20px 0" }}
+          />
+          <div>
+            <h4>キャプション:</h4>
+            <input
+              type="text"
+              value={caption}
+              onChange={handleCaptionChange}
+              placeholder="キャプションを入力"
+              style={{ width: "300px", padding: "5px" }}
+            />
+            <button onClick={handleCaptionSave} style={{ marginLeft: "10px" }}>
+              保存
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h2>キャプション付き画像一覧</h2>
+        {images.map((image, index) => (
+          <div key={index} style={{ marginBottom: "20px" }}>
+            <img
+              src={image.url}
+              alt={`Image ${index}`}
+              style={{ width: "150px", marginRight: "10px" }}
+            />
+            <span>{image.caption || "キャプションなし"}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
