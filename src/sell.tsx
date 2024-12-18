@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { getImagesFromStorage } from "../firebaseStorage"; // Storageから画像URL取得
-import { saveSelectedImageToFirestore } from "../firebaseFirestore"; // Firestore保存
+import { getImagesFromStorage } from "../firebaseStorage";
+import { saveSelectedImageToFirestore } from "../firebaseFirestore";
+import "./sell.css";
 
 const Sell = () => {
-  const [images, setImages] = useState<string[]>([]); // 画像URLのリスト
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // 選択された画像URL
-  const [caption, setCaption] = useState<string>(""); // キャプション
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // 保存中の状態
+  const [images, setImages] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [caption, setCaption] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Firebase Storageから画像を取得
+  // Firebase Storageから画像を取得する
   useEffect(() => {
     const fetchImages = async () => {
-      const imageUrls = await getImagesFromStorage("images"); // フォルダ名を指定
+      const imageUrls = await getImagesFromStorage(
+        "gs://shopping-app-75095.firebasestorage.app/supply-list"
+      );
       setImages(imageUrls);
     };
 
     fetchImages();
   }, []);
 
-  // 画像選択時の処理
+  // 画像選択時の処理をする
   const handleImageSelect = (url: string) => {
-    setSelectedImage(url); // 選択した画像URLを設定
-    setCaption(""); // キャプションをリセット
+    setSelectedImage(url);
+    setCaption("");
   };
 
-  // フォーム送信時の処理
+  // フォーム送信時の処理をする
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedImage) return alert("画像を選択してください");
@@ -33,7 +36,7 @@ const Sell = () => {
     setIsSubmitting(true);
 
     try {
-      // Firestoreに保存
+      // Firestoreに保存する
       await saveSelectedImageToFirestore(selectedImage, caption);
       alert("画像とキャプションが保存されました！");
       setSelectedImage(null); // 選択状態をリセット
@@ -48,9 +51,8 @@ const Sell = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>画像を選択し、キャプションを入力してください</h1>
+      <h1 className="heading">画像を選択し、キャプションを入力してください</h1>
 
-      {/* 画像一覧表示 */}
       <div
         style={{
           display: "flex",
@@ -72,7 +74,7 @@ const Sell = () => {
               }}
               onClick={() => handleImageSelect(url)}
             />
-            <button onClick={() => handleImageSelect(url)}>
+            <button className="select" onClick={() => handleImageSelect(url)}>
               この画像を選択
             </button>
           </div>
@@ -82,14 +84,17 @@ const Sell = () => {
       {/* キャプション入力フォーム */}
       {selectedImage && (
         <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-          <h2>選択された画像:</h2>
+          <h2 className="picture">選択された画像:</h2>
           <img
             src={selectedImage}
             alt="Selected"
             style={{ width: "300px", marginBottom: "10px" }}
           />
           <div>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+            <label
+              className="caption"
+              style={{ display: "block", marginBottom: "5px" }}
+            >
               キャプションを入力:
             </label>
             <input
@@ -110,6 +115,7 @@ const Sell = () => {
             type="submit"
             disabled={isSubmitting}
             style={{ padding: "10px 20px" }}
+            className=""
           >
             {isSubmitting ? "保存中..." : "保存する"}
           </button>
