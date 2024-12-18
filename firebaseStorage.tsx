@@ -1,5 +1,5 @@
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
-import { app } from "./firebaseConfig"; // Firebaseの設定をインポート
+import { app } from "./firebaseConfig";
 
 const storage = getStorage(app);
 

@@ -1,4 +1,5 @@
-import { initializeApp, getApps } from "firebase/app"; // getAppsをインポート
+// firebaseConfig.tsx
+import { initializeApp, getApp, getApps } from "firebase/app"; // getAppsとgetAppをインポート
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -12,13 +13,9 @@ const firebaseConfig = {
   measurementId: "G-3PQC234XM4",
 };
 
-// Firebaseアプリがすでに初期化されているかを確認
-const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-// FirestoreとStorageのインスタンスを取得
+// Firebase アプリがすでに初期化されていない場合のみ初期化
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp(); // すでに初期化されていればそれを使用
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export { db, storage };
-export { app };
+export { db, storage, app };
