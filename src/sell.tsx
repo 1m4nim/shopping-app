@@ -1,13 +1,12 @@
-// Sell.tsx
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../firebaseConfig"; // firebaseConfigからインポート
+import { db, storage } from "../firebaseConfig"; // Firebase設定ファイルのインポート
 import { ref, getDownloadURL } from "firebase/storage"; // Firebase StorageからURLを取得
 import { collection, query, getDocs } from "firebase/firestore"; // Firestoreからデータを取得
 
 interface ImageData {
   caption: string;
-  imageUrl: string;
-  downloadURL: string;
+  imagePath: string; // Firestoreに保存されている画像のパス
+  downloadURL: string; // Firebase Storageから取得した画像のURL
 }
 
 const Sell = () => {
@@ -17,42 +16,66 @@ const Sell = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        console.log("画像データの取得を開始します...");
+        // Firestoreのpostsコレクションから画像情報を取得
         const q = query(collection(db, "posts"));
-        const querySnapshot = await getDocs(q);
-        const imageData: ImageData[] = [];
+        const querySnapshot = await getDocs(q); // キャッシュを無視して取得
+        console.log(
+          "取得した画像データ:",
+          querySnapshot.docs.map((doc) => doc.data())
+        );
+
+        querySnapshot.docs.forEach((doc) => {
+          console.log("Document data:", doc.data());
+        });
+
+        const imageData: ImageData[] = []; // 型を明示的に定義
 
         // Firestoreからデータを取得し、画像URLを取得
-        querySnapshot.forEach(async (doc) => {
+        for (const doc of querySnapshot.docs) {
           const data = doc.data();
-          const imageUrl = data.imageUrl; // Firestoreから保存された画像URLを取得
+          const imagePath = data.imagePath; // Firestoreから保存された画像のパスを取得
 
-          // 画像のURLがStorageに格納されている場合
-          if (imageUrl) {
+          console.log("取得したimagePath:", imagePath); // imagePathの確認
+
+          // 画像のパスがStorageに格納されている場合
+          if (imagePath) {
             try {
-              const imageRef = ref(storage, imageUrl); // gs:// のパスをそのまま渡す
+              console.log("Firebase Storageから画像URLを取得中...");
+              // Firebase Storageから画像URLを取得 (画像のパスを指定)
+              const imageRef = ref(storage, imagePath); // Firestoreに保存された画像のパスを使う
               const downloadURL = await getDownloadURL(imageRef);
 
-              imageData.push({
-                caption: data.caption || "",
-                imageUrl: data.imageUrl || "",
+              console.log("取得した画像URL:", downloadURL); // 画像URLの確認
+
+              // 画像データとdownloadURLを統合
+              const imageDataWithUrl: ImageData = {
+                caption: data.caption || "", // 必要なフィールドを取得
+                imagePath,
                 downloadURL,
-              });
+              };
+
+              imageData.push(imageDataWithUrl); // 画像データを配列に追加
             } catch (err) {
-              const error = err as Error;
+              const error = err as Error; // エラー型を明示的に指定
+              console.error("画像の取得に失敗:", error); // エラーログ
               setError(`画像の取得に失敗しました: ${error.message}`);
             }
           }
-        });
+        }
 
-        setImages(imageData); // 画像データを状態に設定
+        // 画像データを状態に設定
+        console.log("取得した画像データ:", imageData); // 画像データの確認
+        setImages(imageData);
       } catch (err) {
-        const error = err as Error;
+        const error = err as Error; // エラー型を明示的に指定
+        console.error("画像データの取得に失敗:", error); // エラーログ
         setError(`画像データの取得に失敗しました: ${error.message}`);
       }
     };
 
     fetchImages();
-  }, []);
+  }, []); // 空の依存配列で一度だけ実行
 
   return (
     <div>
