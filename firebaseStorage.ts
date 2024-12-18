@@ -1,17 +1,18 @@
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
+import { app } from "./firebaseConfig"; // Firebaseの設定をインポート
 
-// Storageインスタンスを取得
-const storage = getStorage();
+const storage = getStorage(app);
 
-// Firebase Storageの画像リストを取得する関数
-export const getImagesFromStorage = async (folderPath: string) => {
-  const folderRef = ref(storage, folderPath); // 画像フォルダへの参照
-  const fileList = await listAll(folderRef); // フォルダ内のファイルリストを取得
-
-  // 各ファイルのダウンロードURLを取得
+export const getImagesFromStorage = async (
+  folderName: string
+): Promise<string[]> => {
+  const listRef = ref(storage, folderName);
+  const result = await listAll(listRef);
   const urls = await Promise.all(
-    fileList.items.map((item) => getDownloadURL(item))
+    result.items.map(async (itemRef) => {
+      const url = await getDownloadURL(itemRef);
+      return url;
+    })
   );
-
-  return urls; // URLのリストを返す
+  return urls;
 };

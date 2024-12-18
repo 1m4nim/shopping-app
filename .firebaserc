@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "shopping-app-75095"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
