@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { signInWithPopup, signOut, User } from "firebase/auth"; // User 型をインポート
+import React, { useEffect, useState } from "react";
+import { signInWithPopup, signOut, User } from "firebase/auth";
 import { auth, googleProvider } from "./firebase";
 import "./AuthComponent.css";
 
-const AuthComponent: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null); // ログイン状態を User | null に設定
+type AuthComponentProps = {
+  onUserChange: (user: User | null) => void;
+};
+
+const AuthComponent: React.FC<AuthComponentProps> = ({ onUserChange }) => {
+  const [user, setUser] = useState<User | null>(null);
 
   // ログイン状態の監視
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      setUser(authUser); // authUser は User | null の型
+      setUser(authUser);
+      onUserChange(authUser); // ログイン状態の変更を親コンポーネントに通知
     });
 
     // アンマウント時に監視解除
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [onUserChange]);
 
   // ログイン
   const handleSignIn = async () => {
     try {
-      // Googleログインポップアップを表示
       const result = await signInWithPopup(auth, googleProvider);
-      console.log("ログイン成功", result.user); // ログイン成功時の処理
+      console.log("ログイン成功", result.user);
     } catch (error) {
-      console.error("ログインエラー", error); // エラーハンドリング
+      console.error("ログインエラー", error);
     }
   };
 

@@ -100,6 +100,23 @@ body {
     border-bottom: none;
 }
 
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #333;
+    padding: 0.5rem;
+    text-align: center;
+    z-index: 1000;
+    margin-top: 0.5rem;
+}
+
+.top-bar span {
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .summary {
         display: none;
@@ -107,5 +124,9 @@ body {
 
     .hamburger {
         display: block;
+    }
+
+    .top-bar {
+        display: none;
     }
 }
