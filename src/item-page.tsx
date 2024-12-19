@@ -1,6 +1,6 @@
 import NotFound from "./not-found";
 
-function Help() {
+function Supply() {
   return (
     <div>
       <NotFound />
@@ -8,4 +8,4 @@ function Help() {
   );
 }
 
-export default Help;
+export default Supply;

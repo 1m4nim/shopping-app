@@ -4,12 +4,11 @@ import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import SupplyList from "./item-page";
+import Supply from "./item-page";
 import HeaderDesign from "./header";
 import Login from "./login";
 import Sell from "./sell";
 import Help from "./help";
-
 import "antd/dist/reset.css";
 
 export default function App() {
@@ -32,7 +31,7 @@ export default function App() {
             </div>
           }
         />
-        <Route path="/item-page" element={<SupplyList />} />
+        <Route path="/item-page" element={<Supply />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
