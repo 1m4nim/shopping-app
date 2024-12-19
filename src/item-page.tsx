@@ -1,15 +1,11 @@
-import React from "react";
-import "./item-page.css";
+import NotFound from "./not-found";
 
-const SupplyList: React.FC = () => {
+function Supply() {
   return (
-    <div className="list">
-      <div className="supply">
-        <h1>商品の置き場所</h1>
-        <p>ここに置くよ</p>
-      </div>
+    <div>
+      <NotFound />
     </div>
   );
-};
+}
 
-export default SupplyList;
+export default Supply;
