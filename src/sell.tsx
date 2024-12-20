@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { storage } from "../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { saveCaptionToFirestore } from "./save"; // インポート
 
-// 画像とキャプションを格納するためのインターフェース
 interface ImageWithCaption {
   url: string;
   caption: string;
 }
 
 const Sell = () => {
-  const [images, setImages] = useState<ImageWithCaption[]>([]); // 画像とキャプションのリスト
+  const [images, setImages] = useState<ImageWithCaption[]>([]);
 
-  // Firebase Storage から指定フォルダ内の画像を取得
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -19,19 +18,14 @@ const Sell = () => {
           storage,
           "gs://shopping-app-75095.firebasestorage.app/supply-list/"
         );
-
-        // フォルダ内のアイテムを取得
         const result = await listAll(imagesRef);
-
-        // 各画像のダウンロードURLを取得
         const imageList = await Promise.all(
           result.items.map(async (item) => {
             const url = await getDownloadURL(item);
-            return { url, caption: "" }; // キャプションは初期状態では空
+            return { url, caption: "" };
           })
         );
-
-        setImages(imageList); // 取得した画像リストを状態にセット
+        setImages(imageList);
       } catch (error) {
         console.error("画像の取得エラー:", error);
       }
@@ -40,7 +34,6 @@ const Sell = () => {
     fetchImages();
   }, []);
 
-  // キャプションを更新
   const handleCaptionChange = (index: number, newCaption: string) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
@@ -49,13 +42,9 @@ const Sell = () => {
     });
   };
 
-  // キャプションを保存（実際にはここでバックエンドに保存する処理を追加可能）
   const handleSaveCaption = (index: number) => {
-    alert(
-      `画像 ${index + 1} のキャプションが保存されました: ${
-        images[index].caption
-      }`
-    );
+    const { url, caption } = images[index];
+    saveCaptionToFirestore(index, url, caption);
   };
 
   return (
