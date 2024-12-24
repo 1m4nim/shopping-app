@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { storage } from "../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
-import { saveCaptionToFirestore } from "./save"; // インポート
+import { saveCaptionToFirestore } from "./save"; // キャプション保存関数をインポート
 
 interface ImageWithCaption {
   url: string;
   caption: string;
 }
 
-const Sell = () => {
+const Sell: React.FC = () => {
   const [images, setImages] = useState<ImageWithCaption[]>([]);
 
+  // Firebase Storage から画像を取得
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -34,6 +35,7 @@ const Sell = () => {
     fetchImages();
   }, []);
 
+  // キャプションの変更を管理
   const handleCaptionChange = (index: number, newCaption: string) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
@@ -42,14 +44,31 @@ const Sell = () => {
     });
   };
 
+  // キャプションを保存
   const handleSaveCaption = (index: number) => {
     const { url, caption } = images[index];
     saveCaptionToFirestore(index, url, caption);
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "bisque", // 背景色を設定
+        minHeight: "100vh",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        marginTop: "5rem", // 上部に余白を追加
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {images.length === 0 ? (
           <p>画像がありません。</p>
         ) : (
@@ -63,6 +82,8 @@ const Sell = () => {
                 margin: "10px",
                 textAlign: "center",
                 width: "200px",
+                backgroundColor: "#fff",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
               <img
@@ -70,8 +91,8 @@ const Sell = () => {
                 alt={`Storage Image ${index}`}
                 style={{
                   width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
+                  height: "auto", // 高さを自動調整
+                  objectFit: "contain", // 画像全体を収める
                   marginBottom: "10px",
                 }}
               />

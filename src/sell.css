@@ -1,12 +1,12 @@
+html,
 body {
-    background-color: bisque;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    background-color: bisque;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .heading {
@@ -38,8 +38,13 @@ body {
     color: black;
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
+
+    html,
     body {
+        background-color: bisque;
         background-size: cover;
+        min-height: 100vh;
+        overflow-x: hidden;
     }
 }
