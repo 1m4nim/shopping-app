@@ -4,7 +4,6 @@ import { NewpageButton } from "./newpage-button";
 import styles from "./App.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Supply from "./item-page";
 import HeaderDesign from "./header";
 import Login from "./login";
 import Sell from "./sell";
@@ -31,7 +30,6 @@ export default function App() {
             </div>
           }
         />
-        <Route path="/item-page" element={<Supply />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />

@@ -4,7 +4,7 @@ import "./newpage-button.css";
 export const NewpageButton = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/item-page");
+    navigate("/sell");
   };
 
   return (

@@ -9,6 +9,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: bisque;
+  background-size: cover;
 }
 
 .container {
@@ -18,24 +19,48 @@ body {
   align-items: center;
   height: 100%;
   width: 100%;
+  padding-top: 5rem;
+
 }
 
 .title {
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   color: rgb(167, 115, 52);
-  font-weight: bold;
 }
 
 .description {
   text-align: center;
   color: black;
   font-size: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .newpage {
   margin: 0 33%;
   height: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 7rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1.2rem;
+  }
+
+  .newpage {
+    margin: 0 20%;
+  }
+
+  body {
+    background-size: cover;
+  }
 }

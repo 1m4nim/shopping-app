@@ -122,6 +122,10 @@ body {
         display: none;
     }
 
+    .left {
+        display: none;
+    }
+
     .hamburger {
         display: block;
     }
