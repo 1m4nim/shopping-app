@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from "react";
+import { User } from "firebase/auth";
 import { storage } from "../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
-import { saveCaptionToFirestore } from "./save"; // キャプション保存関数をインポート
+import { saveCaptionToFirestore } from "./save"; // インポート
 
 interface ImageWithCaption {
   url: string;
   caption: string;
 }
 
-const Sell: React.FC = () => {
+interface SellProps {
+  user: User | null; // User型を受け取る
+}
+
+const Sell: React.FC<SellProps> = ({ user }) => {
   const [images, setImages] = useState<ImageWithCaption[]>([]);
 
-  // Firebase Storage から画像を取得
   useEffect(() => {
     const fetchImages = async () => {
-      try {
-        const imagesRef = ref(
-          storage,
-          "gs://shopping-app-75095.firebasestorage.app/supply-list/"
-        );
-        const result = await listAll(imagesRef);
-        const imageList = await Promise.all(
-          result.items.map(async (item) => {
-            const url = await getDownloadURL(item);
-            return { url, caption: "" };
-          })
-        );
-        setImages(imageList);
-      } catch (error) {
-        console.error("画像の取得エラー:", error);
+      if (user) {
+        try {
+          const imagesRef = ref(
+            storage,
+            "gs://shopping-app-75095.firebasestorage.app/supply-list/"
+          );
+          const result = await listAll(imagesRef);
+          const imageList = await Promise.all(
+            result.items.map(async (item) => {
+              const url = await getDownloadURL(item);
+              return { url, caption: "" };
+            })
+          );
+          setImages(imageList);
+        } catch (error) {
+          console.error("画像の取得エラー:", error);
+        }
       }
     };
 
     fetchImages();
-  }, []);
+  }, [user]); // ユーザーがログインしたときだけ画像を取得
 
-  // キャプションの変更を管理
   const handleCaptionChange = (index: number, newCaption: string) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
@@ -44,31 +49,18 @@ const Sell: React.FC = () => {
     });
   };
 
-  // キャプションを保存
   const handleSaveCaption = (index: number) => {
     const { url, caption } = images[index];
     saveCaptionToFirestore(index, url, caption);
   };
 
+  if (!user) {
+    return <p>ログインしてください。</p>; // ログインしていない場合のメッセージ
+  }
+
   return (
-    <div
-      style={{
-        padding: "20px",
-        backgroundColor: "bisque", // 背景色を設定
-        minHeight: "100vh",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        marginTop: "5rem", // 上部に余白を追加
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
+    <div style={{ padding: "20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {images.length === 0 ? (
           <p>画像がありません。</p>
         ) : (
@@ -82,8 +74,6 @@ const Sell: React.FC = () => {
                 margin: "10px",
                 textAlign: "center",
                 width: "200px",
-                backgroundColor: "#fff",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
               <img
@@ -91,8 +81,8 @@ const Sell: React.FC = () => {
                 alt={`Storage Image ${index}`}
                 style={{
                   width: "100%",
-                  height: "auto", // 高さを自動調整
-                  objectFit: "contain", // 画像全体を収める
+                  height: "150px",
+                  objectFit: "cover",
                   marginBottom: "10px",
                 }}
               />
