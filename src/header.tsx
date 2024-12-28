@@ -28,13 +28,13 @@ const HeaderDesign: React.FC = () => {
 
   return (
     <div>
-      <div className="top-bar">
+      {/* <div className="top-bar">
         {user ? (
           <span>ログイン中: {user.displayName || "ユーザー"}</span>
         ) : (
           <span>ログインしてないよ！</span>
         )}
-      </div>
+      </div> */}
 
       <div className="left">
         <a href="/">Happy shopping</a>

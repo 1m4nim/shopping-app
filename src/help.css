@@ -1,0 +1,12 @@
+html,
+body {
+    color: darkslategray
+}
+
+p {
+    font-size: 2rem;
+}
+
+.address {
+    font-size: 1.5rem;
+}

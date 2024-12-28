@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { User } from "firebase/auth";
 import { storage } from "../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { saveCaptionToFirestore } from "./save"; // インポート
@@ -9,37 +8,31 @@ interface ImageWithCaption {
   caption: string;
 }
 
-interface SellProps {
-  user: User | null; // User型を受け取る
-}
-
-const Sell: React.FC<SellProps> = ({ user }) => {
+const Sell = () => {
   const [images, setImages] = useState<ImageWithCaption[]>([]);
 
   useEffect(() => {
     const fetchImages = async () => {
-      if (user) {
-        try {
-          const imagesRef = ref(
-            storage,
-            "gs://shopping-app-75095.firebasestorage.app/supply-list/"
-          );
-          const result = await listAll(imagesRef);
-          const imageList = await Promise.all(
-            result.items.map(async (item) => {
-              const url = await getDownloadURL(item);
-              return { url, caption: "" };
-            })
-          );
-          setImages(imageList);
-        } catch (error) {
-          console.error("画像の取得エラー:", error);
-        }
+      try {
+        const imagesRef = ref(
+          storage,
+          "gs://shopping-app-75095.firebasestorage.app/supply-list/"
+        );
+        const result = await listAll(imagesRef);
+        const imageList = await Promise.all(
+          result.items.map(async (item) => {
+            const url = await getDownloadURL(item);
+            return { url, caption: "" };
+          })
+        );
+        setImages(imageList); // 画像の状態を更新
+      } catch (error) {
+        console.error("画像の取得エラー:", error);
       }
     };
 
-    fetchImages();
-  }, [user]); // ユーザーがログインしたときだけ画像を取得
+    fetchImages(); // コンポーネントのマウント時に画像を取得
+  }, []); // 初回のみ実行
 
   const handleCaptionChange = (index: number, newCaption: string) => {
     setImages((prevImages) => {
@@ -51,12 +44,8 @@ const Sell: React.FC<SellProps> = ({ user }) => {
 
   const handleSaveCaption = (index: number) => {
     const { url, caption } = images[index];
-    saveCaptionToFirestore(index, url, caption);
+    saveCaptionToFirestore(index, url, caption); // キャプションをFirestoreに保存
   };
-
-  if (!user) {
-    return <p>ログインしてください。</p>; // ログインしていない場合のメッセージ
-  }
 
   return (
     <div style={{ padding: "20px" }}>

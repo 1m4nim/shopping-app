@@ -5,9 +5,10 @@ import styles from "./App.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HeaderDesign from "./header";
-import Login from "./login";
+// import Login from "./login";
 import Sell from "./sell";
 import Help from "./help";
+import NotFound from "./not-found";
 import "antd/dist/reset.css";
 
 export default function App() {
@@ -30,9 +31,10 @@ export default function App() {
             </div>
           }
         />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
