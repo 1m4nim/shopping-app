@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
+const { defineConfig } = require("vite");
 
-export default defineConfig({
+module.exports = defineConfig({
   server: {
     proxy: {
       "/firebase-storage": {

@@ -12,6 +12,7 @@
   "dependencies": {
     "@firebase/firestore": "^4.7.5",
     "antd": "^5.22.3",
+    "esbuild": "^0.24.2",
     "firebase": "^11.1.0",
     "react": "^18.3.1",
     "react-burger-menu": "^3.1.0",
