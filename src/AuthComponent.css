@@ -1,11 +1,13 @@
 .not-login {
     background-color: rgb(167, 115, 52);
     text-align: center;
+    color: white;
 }
 
 .login-button {
     display: flex;
     margin: 0 auto;
+    color: white;
 }
 
 .login {

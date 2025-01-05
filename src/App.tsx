@@ -31,7 +31,10 @@ export default function App() {
             </div>
           }
         />
+<<<<<<< Updated upstream
         <Route path="/item-page" element={<Supply />} />
+=======
+>>>>>>> Stashed changes
         <Route path="/login" element={<Login />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
