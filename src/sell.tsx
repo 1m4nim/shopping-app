@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { storage } from "../firebase";
+import { useState, useEffect } from "react";
+import { storage, auth } from "../firebase"; // Firebase Auth をインポート
 import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { onAuthStateChanged } from "firebase/auth";
 
 // 画像とキャプションを格納するためのインターフェース
 interface ImageWithCaption {
@@ -10,6 +11,22 @@ interface ImageWithCaption {
 
 const Sell = () => {
   const [images, setImages] = useState<ImageWithCaption[]>([]); // 画像とキャプションのリスト
+  const [user, setUser] = useState<null | { email: string }>(null); // ログインユーザー情報
+  const [loading, setLoading] = useState(true); // ロード状態
+
+  // Firebase Authentication を使用してログイン状態を監視
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser({ email: currentUser.email || "匿名ユーザー" });
+      } else {
+        setUser(null);
+      }
+      setLoading(false); // ロードが終了
+    });
+
+    return () => unsubscribe(); // クリーンアップ
+  }, []);
 
   // Firebase Storage から指定フォルダ内の画像を取得
   useEffect(() => {
@@ -58,8 +75,19 @@ const Sell = () => {
     );
   };
 
+  if (loading) {
+    return <p>読み込み中...</p>;
+  }
+
+  if (!user) {
+    return <p>このページを見るにはログインが必要です。</p>;
+  }
+
   return (
     <div style={{ padding: "20px" }}>
+      <h2 style={{ fontWeight: "1.5rem", color: "black" }}>
+        ようこそ、{user.email} さん
+      </h2>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {images.length === 0 ? (
           <p>画像がありません。</p>

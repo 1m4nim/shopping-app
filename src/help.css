@@ -1,0 +1,15 @@
+body,
+html {
+    text-align: center;
+}
+
+.caption {
+    font-size: 1.7rem;
+    color: steelblue;
+    font-weight: bolder;
+}
+
+.address {
+    font-size: 1.2rem;
+    color: black;
+}
