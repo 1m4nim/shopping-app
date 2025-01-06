@@ -11,14 +11,19 @@ interface ImageWithCaption {
 
 const Sell = () => {
   const [images, setImages] = useState<ImageWithCaption[]>([]); // 画像とキャプションのリスト
-  const [user, setUser] = useState<null | { email: string }>(null); // ログインユーザー情報
+  const [user, setUser] = useState<null | { name: string; email: string }>(
+    null
+  ); // ログインユーザー情報
   const [loading, setLoading] = useState(true); // ロード状態
 
   // Firebase Authentication を使用してログイン状態を監視
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        setUser({ email: currentUser.email || "匿名ユーザー" });
+        setUser({
+          name: currentUser.displayName || "匿名ユーザー",
+          email: currentUser.email || "不明なメールアドレス",
+        });
       } else {
         setUser(null);
       }
@@ -90,11 +95,19 @@ const Sell = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h2 style={{ fontWeight: "1.5rem", color: "black" }}>
-        ようこそ、{user.email} さん
+        ようこそ、{user.name} さん
       </h2>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {images.length === 0 ? (
-          <p>画像がありません。</p>
+          <p
+            style={{
+              color: "saddlebrown",
+              fontSize: "1.5rem",
+              backgroundColor: "goldenrod",
+            }}
+          >
+            画像がありません。
+          </p>
         ) : (
           images.map((image, index) => (
             <div
