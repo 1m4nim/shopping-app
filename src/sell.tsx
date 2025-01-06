@@ -80,7 +80,11 @@ const Sell = () => {
   }
 
   if (!user) {
-    return <p>このページを見るにはログインが必要です。</p>;
+    return (
+      <p style={{ fontSize: "1.5rem", color: "black" }}>
+        このページを見るにはログインが必要です。
+      </p>
+    );
   }
 
   return (
