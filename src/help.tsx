@@ -1,4 +1,3 @@
-import React from "react";
 import "./help.css";
 import HeaderDesign from "./header";
 
