@@ -10,6 +10,7 @@ import Login from "./login";
 import Sell from "./sell";
 import Help from "./help";
 import "antd/dist/reset.css";
+import ItemPage from "./item-page";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/item-Page" element={<ItemPage />} />
       </Routes>
     </Router>
   );

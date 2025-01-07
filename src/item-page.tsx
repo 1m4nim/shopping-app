@@ -1,11 +1,11 @@
-import NotFound from "./not-found";
+import Sell from "./sell"; // Sell コンポーネントをインポート
 
-function Supply() {
+const ItemPage: React.FC = () => {
   return (
     <div>
-      <NotFound />
+      <Sell />
     </div>
   );
-}
+};
 
-export default Supply;
+export default ItemPage;
