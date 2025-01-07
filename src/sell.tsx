@@ -4,7 +4,7 @@ import { storage } from "../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebaseConfig";
 
-const ImageDisplay: React.FC = () => {
+const Sell: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [user] = useAuthState(auth); // 現在のログイン状態を取得
 
@@ -44,4 +44,4 @@ const ImageDisplay: React.FC = () => {
   );
 };
 
-export default ImageDisplay;
+export default Sell;
