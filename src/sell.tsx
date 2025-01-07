@@ -28,7 +28,11 @@ const Sell: React.FC = () => {
   }, [user]);
 
   if (!user) {
-    return <p>画像を表示するにはログインしてください。</p>;
+    return (
+      <p style={{ fontSize: "1.5rem", color: "black" }}>
+        画像を表示するにはログインしてください。
+      </p>
+    );
   }
 
   return (
