@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { auth } from "../firebase"; // Firebase Auth と Storage をインポート
-import { getImagesFromStorage } from "./imageService"; // getImagesFromStorage をインポート
+import { auth, storage } from "../firebase"; // Firebase Auth と Storage をインポート
+import { ref, listAll, getDownloadURL } from "firebase/storage"; // Firebase Storage のメソッドをインポート
 import { onAuthStateChanged } from "firebase/auth";
 
 // ログイン状態でのみ画像を表示するコンポーネント
@@ -10,6 +10,21 @@ const Sell = () => {
     null
   ); // ログインユーザー情報
   const [loading, setLoading] = useState(true); // ロード状態
+
+  // Firebase Storage から画像URLを取得する関数
+  const fetchImages = async (folderPath: string) => {
+    try {
+      const folderRef = ref(storage, folderPath); // フォルダの参照を取得
+      const result = await listAll(folderRef); // フォルダ内のアイテムを一覧取得
+      const urls = await Promise.all(
+        result.items.map((itemRef) => getDownloadURL(itemRef)) // 各アイテムのダウンロードURLを取得
+      );
+      return urls;
+    } catch (error) {
+      console.error("画像の取得エラー:", error);
+      return [];
+    }
+  };
 
   // Firebase Authentication を使用してログイン状態を監視
   useEffect(() => {
@@ -22,7 +37,7 @@ const Sell = () => {
 
         // ログイン状態の場合にのみ画像を取得
         try {
-          const fetchedImages = await getImagesFromStorage("supply-list/");
+          const fetchedImages = await fetchImages("supply-list/");
           setImages(fetchedImages); // 画像リストをセット
         } catch (error) {
           console.error("画像の取得エラー:", error);
