@@ -1,114 +1,47 @@
-import { useState, useEffect } from "react";
-import { auth, storage } from "../firebase"; // Firebase Auth と Storage をインポート
-import { ref, listAll, getDownloadURL } from "firebase/storage"; // Firebase Storage のメソッドをインポート
-import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../firebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebaseConfig";
 
-// ログイン状態でのみ画像を表示するコンポーネント
-const Sell = () => {
-  const [images, setImages] = useState<string[]>([]); // 画像URLのリスト
-  const [user, setUser] = useState<null | { name: string; email: string }>(
-    null
-  ); // ログインユーザー情報
-  const [loading, setLoading] = useState(true); // ロード状態
+const ImageDisplay: React.FC = () => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [user] = useAuthState(auth); // 現在のログイン状態を取得
 
-  // Firebase Storage から画像URLを取得する関数
-  const fetchImages = async (folderPath: string) => {
-    try {
-      const folderRef = ref(storage, folderPath); // フォルダの参照を取得
-      const result = await listAll(folderRef); // フォルダ内のアイテムを一覧取得
-      const urls = await Promise.all(
-        result.items.map((itemRef) => getDownloadURL(itemRef)) // 各アイテムのダウンロードURLを取得
-      );
-      return urls;
-    } catch (error) {
-      console.error("画像の取得エラー:", error);
-      return [];
-    }
-  };
-
-  // Firebase Authentication を使用してログイン状態を監視
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser({
-          name: currentUser.displayName || "匿名ユーザー",
-          email: currentUser.email || "不明なメールアドレス",
-        });
-
-        // ログイン状態の場合にのみ画像を取得
+    const fetchImage = async () => {
+      if (user) {
         try {
-          const fetchedImages = await fetchImages("supply-list/");
-          setImages(fetchedImages); // 画像リストをセット
+          // Firebase Storage 内の画像のパス
+          const imageRef = ref(storage, "supply-list");
+          const url = await getDownloadURL(imageRef);
+          setImageUrl(url);
         } catch (error) {
-          console.error("画像の取得エラー:", error);
+          console.error("画像の取得に失敗しました: ", error);
         }
       } else {
-        setUser(null);
-        setImages([]); // ログアウト時は画像リストをクリア
+        setImageUrl(null);
       }
-      setLoading(false); // ロードが終了
-    });
+    };
 
-    return () => unsubscribe(); // クリーンアップ
-  }, []);
-
-  if (loading) {
-    return <p style={{ fontSize: "1.5rem", color: "black" }}>読み込み中...</p>;
-  }
+    fetchImage();
+  }, [user]);
 
   if (!user) {
-    return (
-      <p style={{ fontSize: "1.5rem", color: "black" }}>
-        このページを見るにはログインが必要です。
-      </p>
-    );
+    return <p>画像を表示するにはログインしてください。</p>;
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2 style={{ fontWeight: "1.5rem", color: "black" }}>
-        ようこそ、{user.name} さん
-      </h2>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {images.length === 0 ? (
-          <p
-            style={{
-              color: "saddlebrown",
-              fontSize: "1.5rem",
-              backgroundColor: "goldenrod",
-            }}
-          >
-            画像がありません。
-          </p>
-        ) : (
-          images.map((url, index) => (
-            <div
-              key={index}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                padding: "10px",
-                margin: "10px",
-                textAlign: "center",
-                width: "200px",
-              }}
-            >
-              <img
-                src={url}
-                alt={`Storage Image ${index}`}
-                style={{
-                  width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
-                  marginBottom: "10px",
-                }}
-              />
-            </div>
-          ))
-        )}
-      </div>
+    <div>
+      {imageUrl ? (
+        <img src={imageUrl} alt="Uploaded File" />
+      ) : (
+        <p style={{ color: "black", fontSize: "1.5rem" }}>
+          画像を読み込んでいます...
+        </p>
+      )}
     </div>
   );
 };
 
-export default Sell;
+export default ImageDisplay;
