@@ -11,6 +11,8 @@ import Sell from "./sell";
 import Help from "./help";
 import "antd/dist/reset.css";
 import ItemPage from "./item-page";
+import UploadImage from "./UploadImage";
+import ViewImages from "./ViewImages";
 
 export default function App() {
   return (
@@ -37,6 +39,8 @@ export default function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
         <Route path="/item-Page" element={<ItemPage />} />
+        <Route path="/UploadImage" element={<UploadImage />} />
+        <Route path="/ViewImage" element={<ViewImages />} />
       </Routes>
     </Router>
   );

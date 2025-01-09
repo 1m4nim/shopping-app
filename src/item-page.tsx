@@ -1,4 +1,4 @@
-import Sell from "./sell"; // Sell コンポーネントをインポート
+import Sell from "./sell";
 
 const ItemPage: React.FC = () => {
   return (
