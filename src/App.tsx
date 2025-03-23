@@ -13,6 +13,7 @@ import "antd/dist/reset.css";
 import ItemPage from "./item-page";
 import UploadImage from "./UploadImage";
 import ViewImages from "./ViewImages";
+import fetchImage from "./fetchImage";
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/item-Page" element={<ItemPage />} />
         <Route path="/UploadImage" element={<UploadImage />} />
         <Route path="/ViewImage" element={<ViewImages />} />
+        <Route path="/fetchImage" element={<fetchImage />} />
       </Routes>
     </Router>
   );

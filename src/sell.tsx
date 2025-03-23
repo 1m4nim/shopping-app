@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../firebaseConfig"; // Firebaseの初期設定ファイル
+import { auth } from "../firebaseConfig"; // Firebase Auth設定
+import { getApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebaseConfig"; // Firebase Authの設定
+
+// Firebaseの初期化
+const firebaseApp = getApp();
+const storage = getStorage(firebaseApp);
 
 const Sell: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [user] = useAuthState(auth); // 現在のログイン状態を取得
+  const [user] = useAuthState(auth); // 現在ログイン中のユーザー情報を取得
 
   useEffect(() => {
     const fetchImage = async () => {
       if (user) {
         try {
-          // Firebase Storage 内の画像のパスを指定
-          const imageRef = ref(storage, `users/${user.uid}/supply-list`);
+          // ログイン中のユーザーのUIDを取得
+          const userUid = user.uid;
+
+          // ユーザーのUIDを動的に使用して画像パスを設定
+          const imageRef = ref(storage, `users/${userUid}/supply-list`);
           const url = await getDownloadURL(imageRef);
+
+          // 画像のURLを状態に保存
           setImageUrl(url);
         } catch (error) {
           console.error("画像の取得に失敗しました: ", error);
@@ -26,8 +36,9 @@ const Sell: React.FC = () => {
     };
 
     fetchImage();
-  }, [user]);
+  }, [user]); // userが変わるたびに実行
 
+  // ユーザーが未ログインの場合
   if (!user) {
     return (
       <p style={{ fontSize: "1.5rem", color: "black" }}>
